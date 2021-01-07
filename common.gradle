@@ -1,0 +1,32 @@
+ext {
+    isRelease = true
+
+    url = [
+            "release":"https://www.xxxxxx.com",
+            "debug":"https://www.yyyyyy.com"
+    ]
+
+    // 建立Map存储
+    androidId = [
+            "compileSdkVersion": 30,
+            "buildToolsVersion": "30.0.2",
+            "applicationId"    : "com.rzm.modelsproject",
+            "minSdkVersion"    : 16,
+            "targetSdkVersion" : 30,
+            "versionCode"      : 1,
+            "versionName"      : "1.0"
+    ]
+
+    applicationId = [
+            app: "com.rzm.modelsproject",
+            home: "com.rzm.home",
+            mine: "com.rzm.mine",
+            news: "com.rzm.news",
+    ]
+
+    dependencyId = [
+            "appcompat"       : 'androidx.appcompat:appcompat:1.2.0',
+            "material"        : 'com.google.android.material:material:1.2.1',
+            "constraintlayout": 'androidx.constraintlayout:constraintlayout:2.0.4',
+    ]
+}

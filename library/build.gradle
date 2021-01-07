@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.library'
+}
+
+def androidID = rootProject.ext.androidId
+def applicationID = rootProject.ext.applicationId
+def dependencyID = rootProject.ext.dependencyId
+
+android {
+    compileSdkVersion androidID.compileSdkVersion
+    buildToolsVersion androidID.buildToolsVersion
+
+    defaultConfig {
+//        applicationId appID.app
+        minSdkVersion androidID.minSdkVersion
+        targetSdkVersion androidID.targetSdkVersion
+        versionCode androidID.versionCode
+        versionName androidID.versionName
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //循环引入
+    dependencyID.each { k, v ->
+        if (k != "constraintlayout") {
+            implementation v
+        }
+    }
+}

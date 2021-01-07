@@ -1,0 +1,57 @@
+if (isRelease) {
+    apply plugin :'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+def androidID = rootProject.ext.androidId
+def applicationID = rootProject.ext.applicationId
+def dependencyID = rootProject.ext.dependencyId
+
+android {
+    compileSdkVersion androidID.compileSdkVersion
+    buildToolsVersion androidID.buildToolsVersion
+
+    defaultConfig {
+        if (!isRelease) {
+            applicationId applicationID.home
+        }
+        minSdkVersion androidID.minSdkVersion
+        targetSdkVersion androidID.targetSdkVersion
+        versionCode androidID.versionCode
+        versionName androidID.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            if (!isRelease) {
+                // 如果是组件化模式，需要单独运行时 Debug
+//                manifest.srcFile 'src/main/debug/AndroidManifest.xml' // 生效
+            } else { // 正式环境下
+                // 集成化模式，整个项目打包apk
+//                manifest.srcFile 'src/main/AndroidManifest.xml' // 让我们之前 默认的路径下的清单文件再次生效
+
+                java {
+                    // release 时 debug 目录下文件不需要合并到主工程
+                    exclude "**/debug/**"
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    //循环引入
+    dependencyID.each { ke, v -> implementation v }
+    implementation project(':library')
+}

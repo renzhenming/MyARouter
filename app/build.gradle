@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+}
+
+printf("hello world .......")
+println(" who are you boy .... ")
+
+def androidID = rootProject.ext.androidId
+def applicationID = rootProject.ext.applicationId
+def dependencyID = rootProject.ext.dependencyId
+def url = rootProject.ext.url
+
+android {
+    compileSdkVersion androidID.compileSdkVersion
+    buildToolsVersion androidID.buildToolsVersion
+
+    defaultConfig {
+        applicationId applicationID.app
+        minSdkVersion androidID.minSdkVersion
+        targetSdkVersion androidID.targetSdkVersion
+        versionCode androidID.versionCode
+        versionName androidID.versionName
+
+        buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+    }
+
+    buildTypes {
+        debug{
+            buildConfigField("String","ServerUrl","\"${url.debug}\"")
+        }
+        release {
+            buildConfigField("String","ServerUrl","\"${url.release}\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //循环引入
+    dependencyID.each{ke,v -> implementation v}
+    if (isRelease){
+        implementation project(':mine')
+        implementation project(':home')
+        implementation project(':news')
+    }
+}
