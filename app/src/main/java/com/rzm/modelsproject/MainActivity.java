@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.rzm.arouter_annotations.ARouter;
+
+@ARouter(path = "/app/MainActivity", group = "app")
 public class MainActivity extends AppCompatActivity {
 
     @Override

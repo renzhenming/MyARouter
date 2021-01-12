@@ -1,7 +1,9 @@
+include ':arouter-compiler'
+include ':arouter-annotations'
+include ':arouter-api'
 include ':home'
 include ':library'
 include ':mine'
 include ':news'
-include ':app:news'
 include ':app'
 rootProject.name = "ModelsProject"

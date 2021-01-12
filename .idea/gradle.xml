@@ -12,7 +12,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/app/news" />
+            <option value="$PROJECT_DIR$/arouter-annotations" />
+            <option value="$PROJECT_DIR$/arouter-api" />
+            <option value="$PROJECT_DIR$/arouter-compiler" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/mine" />

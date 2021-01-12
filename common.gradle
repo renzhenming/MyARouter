@@ -1,6 +1,9 @@
 ext {
     isRelease = true
 
+    // 定义一个包名，用于存放APT生成的所有类文件
+    packageNameForAPT = "com.rzm.arouter_class";
+
     url = [
             "release":"https://www.xxxxxx.com",
             "debug":"https://www.yyyyyy.com"

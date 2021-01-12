@@ -20,6 +20,14 @@ android {
         targetSdkVersion androidID.targetSdkVersion
         versionCode androidID.versionCode
         versionName androidID.versionName
+
+        // 在gradle文件中配置选项参数值（用于APT传参接收）
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // project.getName() == app
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
     }
 
     buildTypes {
@@ -54,4 +62,6 @@ dependencies {
     //循环引入
     dependencyID.each{ke,v -> implementation v}
     implementation project(':library')
+    implementation project(":arouter-annotations")
+    annotationProcessor project(":arouter-compiler")
 }

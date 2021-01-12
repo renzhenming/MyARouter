@@ -22,6 +22,14 @@ android {
         versionName androidID.versionName
 
         buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+
+        // 在gradle文件中配置选项参数值（用于APT传参接收）
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // project.getName() == app
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
     }
 
     buildTypes {
@@ -43,6 +51,8 @@ android {
 dependencies {
     //循环引入
     dependencyID.each{ke,v -> implementation v}
+    implementation project(":arouter-annotations")
+    annotationProcessor project(":arouter-compiler")
     if (isRelease){
         implementation project(':mine')
         implementation project(':home')
