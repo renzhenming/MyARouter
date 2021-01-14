@@ -51,8 +51,8 @@ public interface ProcessorConfig {
     // Activity全类名
     public static final String ACTIVITY_PACKAGE = "android.app.Activity";
 
-    // ARouter api 包名
-    String AROUTER_API_PACKAGE = "com.xiangxue.arouter_api";
+    // ARouter api 包名 com.rzm.arouter_api.ARouterGroup
+    String AROUTER_API_PACKAGE = "com.rzm.arouter_api";
 
     // ARouter api 的 ARouterGroup 高层标准
     String AROUTER_API_GROUP = AROUTER_API_PACKAGE + ".ARouterGroup";
