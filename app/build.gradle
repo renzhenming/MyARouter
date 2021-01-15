@@ -53,6 +53,8 @@ dependencies {
     dependencyID.each{ke,v -> implementation v}
     implementation project(":arouter-annotations")
     annotationProcessor project(":arouter-compiler")
+    // 公共基础库
+    implementation project(":library")
     if (isRelease){
         implementation project(':mine')
         implementation project(':home')
