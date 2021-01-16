@@ -52,6 +52,12 @@ dependencies {
     //循环引入
     dependencyID.each{ke,v -> implementation v}
     implementation project(":arouter-annotations")
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     annotationProcessor project(":arouter-compiler")
     // 公共基础库
     implementation project(":library")

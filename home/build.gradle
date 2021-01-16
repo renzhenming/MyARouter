@@ -63,5 +63,7 @@ dependencies {
     dependencyID.each { ke, v -> implementation v }
     implementation project(':library')
     implementation project(":arouter-annotations")
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     annotationProcessor project(":arouter-compiler")
 }

@@ -9,6 +9,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.WildcardTypeName;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,31 +123,35 @@ public class ARouterProcessor extends AbstractProcessor {
                 List<RouterBean> routerBeans = mAllPathMap.get(routerBean.getGroup());
 
                 // 如果从Map中找不到key为：bean.getGroup()的数据，就新建List集合再添加进Map
-                if (routerBeans == null || routerBeans.isEmpty()) { // 仓库一 没有东西
+                if (routerBeans != null) { // 仓库一 没有东西
+                    routerBeans.add(routerBean);
+                } else {
                     routerBeans = new ArrayList<>();
                     routerBeans.add(routerBean);
                     mAllPathMap.put(routerBean.getGroup(), routerBeans);// 加入仓库一
-                } else {
-                    routerBeans.add(routerBean);
                 }
             } else {
                 messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范配置，如：/app/MainActivity");
             }
+        }
 
-            //传完整类名进去，得到type
-            TypeElement pathType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterPath"); // ARouterPath描述
-            TypeElement groupType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterGroup"); // ARouterGroup描述
+        //传完整类名进去，得到type
+        TypeElement pathType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterPath"); // ARouterPath描述
+        TypeElement groupType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterGroup"); // ARouterGroup描述
 
-            messager.printMessage(Diagnostic.Kind.NOTE, "pathType = " + pathType);
-            messager.printMessage(Diagnostic.Kind.NOTE, "groupType = " + groupType);
+        messager.printMessage(Diagnostic.Kind.NOTE, "pathType = " + pathType);
+        messager.printMessage(Diagnostic.Kind.NOTE, "groupType = " + groupType);
 
-            try {
-                createPathFile(pathType); // 生成 Path类
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            createPathFile(pathType); // 生成 Path类
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        try {
             createGroupFile(groupType, pathType);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -176,6 +181,15 @@ public class ARouterProcessor extends AbstractProcessor {
         );
 
         Set<Map.Entry<String, List<RouterBean>>> entries = mAllPathMap.entrySet();
+
+        for (Map.Entry<String, List<RouterBean>> entry : entries) {
+            messager.printMessage(Diagnostic.Kind.NOTE, "group = " + entry.getKey());
+            List<RouterBean> value = entry.getValue();
+            for (RouterBean routerBean : value) {
+                messager.printMessage(Diagnostic.Kind.NOTE, "group class = " + routerBean.getElement().getSimpleName());
+            }
+        }
+
         for (Map.Entry<String, List<RouterBean>> entry : entries) {
             MethodSpec.Builder getPathMapBuilder = MethodSpec.methodBuilder(ProcessorConfig.PATH_METHOD_NAME)
                     .addModifiers(Modifier.PUBLIC)
@@ -225,8 +239,74 @@ public class ARouterProcessor extends AbstractProcessor {
         }
     }
 
-    private void createGroupFile(TypeElement groupType, TypeElement pathType) {
+    /**
+     * 生成路由组Group文件，如：ARouter$$Group$$app
+     *
+     * @param groupType ARouterLoadGroup接口信息
+     * @param pathType  ARouterLoadPath接口信息
+     *                  public class ARouter$$Group$$personal implements ARouterGroup {
+     * @Override public Map<String, Class<? extends ARouterPath>> getGroupMap() {
+     * Map<String, Class<? extends ARouterPath>> groupMap = new HashMap<>();
+     * groupMap.put("personal", ARouter$$Path$$personal.class);
+     * return groupMap;
+     * }
+     * }
+     */
+    private void createGroupFile(TypeElement groupType, TypeElement pathType) throws IOException {
+        if (mAllPathMap == null || mAllPathMap.size() == 0) {
+            return;
+        }
+        if (mAllGroupMap == null || mAllGroupMap.size() == 0) {
+            return;
+        }
 
+        ParameterizedTypeName getGroupMapReturn = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(
+                        ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathType))
+                )
+        );
+
+        MethodSpec.Builder getGroupMapBuilder = MethodSpec.methodBuilder(ProcessorConfig.GROUP_METHOD_NAME)
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(getGroupMapReturn);
+
+        getGroupMapBuilder.addStatement(
+                "$T<$T,$T> $N = new $T<>()",
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(
+                        ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathType))
+                ),
+                ProcessorConfig.GROUP_VAR1,
+                ClassName.get(HashMap.class)
+        );
+
+        Set<Map.Entry<String, String>> entries = mAllGroupMap.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            getGroupMapBuilder.addStatement(
+                    "$N.put($S,$T.class)",
+                    ProcessorConfig.GROUP_VAR1,
+                    entry.getKey(),
+                    ClassName.get(aptPackage, entry.getValue())
+            );
+        }
+        getGroupMapBuilder.addStatement("return $N", ProcessorConfig.GROUP_VAR1);
+
+        MethodSpec getGroupMethod = getGroupMapBuilder.build();
+
+        String finalClassName = ProcessorConfig.GROUP_FILE_NAME + moduleName;
+        TypeSpec typeSpec = TypeSpec.classBuilder(finalClassName)
+                .addModifiers(Modifier.PUBLIC)
+                .addSuperinterface(ClassName.get(groupType))
+                .addMethod(getGroupMethod)
+                .build();
+
+        JavaFile.builder(aptPackage, typeSpec).build().writeTo(filer);
     }
 
     /**
