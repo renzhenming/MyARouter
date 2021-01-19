@@ -7,44 +7,6 @@ public interface ProcessorConfig {
     String APT_PACKAGE = "packageNameForAPT"; // 同学们：目的是接收 包名（APT 存放的包名）
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // String全类名
     public static final String STRING_PACKAGE = "java.lang.String";
 
@@ -59,6 +21,17 @@ public interface ProcessorConfig {
 
     // ARouter api 的 ARouterPath 高层标准
     String AROUTER_API_PATH = AROUTER_API_PACKAGE + ".ARouterPath";
+
+    String AROUTER_AIP_PARAMETER_GET = AROUTER_API_PACKAGE + ".ParameterGet";
+
+    // ARouter api 的 ParameterGet 方法参数的名字
+    String PARAMETER_NAME = "targetParameter";
+
+    // ARouter api 的 ParmeterGet 方法的名字
+    String PARAMETER_METHOD_NAME = "getParameter";
+
+    // ARouter aip 的 ParmeterGet 的 生成文件名称 $$Parameter
+    String PARAMETER_FILE_NAME = "$$Parameter";
 
     // 路由组，中的 Path 里面的 方法名
     String PATH_METHOD_NAME = "getPathMap";
