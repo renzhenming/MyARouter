@@ -50,4 +50,6 @@ public interface ProcessorConfig {
 
     // 路由组，GROUP 最终要生成的 文件名
     String GROUP_FILE_NAME = "ARouter$$Group$$";
+    // String全类名
+    public static final String STRING = "java.lang.String";
 }
