@@ -13,6 +13,12 @@
         android:onClick="jump"
         android:text="跳转到new activity" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="requestWeather"
+        android:text="调用home模块的天气接口" />
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"

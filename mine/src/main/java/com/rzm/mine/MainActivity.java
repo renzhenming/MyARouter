@@ -12,6 +12,7 @@ import com.rzm.arouter_annotations.Parameter;
 import com.rzm.arouter_api.ParameterManager;
 import com.rzm.arouter_api.RouterManager;
 import com.rzm.library.bean.Worker;
+import com.rzm.library.home.HomeRequest;
 import com.rzm.library.news.NewsDrawable;
 
 @ARouter(path = "/mine/MainActivity")
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @Parameter
     Worker worker;
 
+    @Parameter(name = "/home/HomeRequestApi")
+    HomeRequest homeRequest2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 .withInt("age", 12)
                 .withString("number", "32")
                 .navigation(this);
+    }
+
+    public void requestWeather2(View view) {
+        String weatherInfo = homeRequest2.getWeatherInfo("北京");
+        System.out.println(weatherInfo);
+    }
+
+    public void requestWeather(View view) {
+        HomeRequest homeRequest = (HomeRequest) RouterManager.getInstance().build("/home/HomeRequestApi").navigation(this);
+        String weatherInfo = homeRequest.getWeatherInfo("上海");
+        System.out.println(weatherInfo);
     }
 }
