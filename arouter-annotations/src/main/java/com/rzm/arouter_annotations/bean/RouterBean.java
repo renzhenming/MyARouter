@@ -12,7 +12,7 @@ public class RouterBean {
 
     // 为了以后的发展
     public enum TypeEnum {
-        ACTIVITY
+        ACTIVITY,CALL
     }
 
     private TypeEnum typeEnum; // 枚举类型：Activity

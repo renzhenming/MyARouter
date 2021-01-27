@@ -135,6 +135,16 @@ public class RouterManager {
                     intent.putExtras(bundleManager.getBundle());
                     context.startActivity(intent);
                     break;
+                case CALL:
+                    // OrderAddressImpl.class  OrderBean getOrderBean
+                    Class<?> clazz = routerBean.getMyClass(); // OrderUserImpl BaseUser实体
+                    Call call = null;
+                    try {
+                        call = (Call) clazz.newInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return call;
             }
 
         }

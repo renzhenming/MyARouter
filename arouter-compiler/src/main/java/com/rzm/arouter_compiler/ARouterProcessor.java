@@ -95,6 +95,10 @@ public class ARouterProcessor extends AbstractProcessor {
         }
         TypeElement activityTypeElement = elementUtils.getTypeElement(ProcessorConfig.ACTIVITY_PACKAGE);
         TypeMirror activityTypeMirror = activityTypeElement.asType();
+
+        TypeElement callType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_CALL);
+        TypeMirror callTypeMirror = callType.asType();
+
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ARouter.class);
         for (Element element : elements) {
             Name simpleName = element.getSimpleName();
@@ -106,9 +110,6 @@ public class ARouterProcessor extends AbstractProcessor {
 
             ARouter aRouter = element.getAnnotation(ARouter.class);
             TypeMirror elementTypeMirror = element.asType();
-            if (!typeUtils.isSubtype(elementTypeMirror, activityTypeMirror)) {
-                throw new RuntimeException("@ARouter注解目前仅限用于Activity类之上");
-            }
 
             // 在循环里面，对 “路由对象” 进行封装
             RouterBean routerBean = new RouterBean.Builder()
@@ -116,7 +117,14 @@ public class ARouterProcessor extends AbstractProcessor {
                     .addPath(aRouter.path())
                     .addElement(element)
                     .build();
-            routerBean.setTypeEnum(RouterBean.TypeEnum.ACTIVITY); // 最终证明是 Activity
+
+            if (typeUtils.isSubtype(elementTypeMirror, activityTypeMirror)) {
+                routerBean.setTypeEnum(RouterBean.TypeEnum.ACTIVITY); // 最终证明是 Activity
+            }else if (typeUtils.isSubtype(elementTypeMirror,callTypeMirror)){
+                routerBean.setTypeEnum(RouterBean.TypeEnum.CALL); // 最终证明是 Activity
+            }else {
+                throw new NullPointerException("暂不支持的类型");
+            }
 
             if (checkRouterPath(routerBean)) {
                 messager.printMessage(Diagnostic.Kind.NOTE, "RouterBean Check Success:" + routerBean.toString());

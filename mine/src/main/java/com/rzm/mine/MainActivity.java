@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.rzm.arouter_annotations.ARouter;
 import com.rzm.arouter_annotations.Parameter;
+import com.rzm.arouter_api.ParameterManager;
 import com.rzm.arouter_api.RouterManager;
+import com.rzm.library.news.NewsDrawable;
 
 @ARouter(path = "/mine/MainActivity")
 public class MainActivity extends AppCompatActivity {
@@ -18,10 +21,16 @@ public class MainActivity extends AppCompatActivity {
     @Parameter
     String name;
 
+    @Parameter(name = "/news/NewsDrawableImpl")
+    NewsDrawable drawable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ParameterManager.getInstance().loadParameter(this);
+        ImageView image = findViewById(R.id.image);
+        image.setImageResource(drawable.getDrawable());
     }
 
     public void jump(View view) {

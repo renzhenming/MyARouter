@@ -116,6 +116,8 @@ public class ParameterProcessor extends AbstractProcessor {
 
             TypeElement activityTypeElement = elementUtils.getTypeElement(ProcessorConfig.ACTIVITY_PACKAGE);
             TypeElement parameterGetTypeElement = elementUtils.getTypeElement(ProcessorConfig.AROUTER_AIP_PARAMETER_GET);
+            TypeElement callTypeElement = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_CALL);
+            TypeMirror callTypeMirror = callTypeElement.asType();
 
 
             ParameterSpec parameterSpec = ParameterSpec.builder(TypeName.OBJECT, ProcessorConfig.PARAMETER_NAME).build();
@@ -180,6 +182,20 @@ public class ParameterProcessor extends AbstractProcessor {
                         if (typeMirror.toString().equalsIgnoreCase(ProcessorConfig.STRING)) {
                             // String类型
                             methodContent += "getStringExtra($S)"; // 没有默认值
+                        }else if (typeUtils.isSubtype(typeMirror,callTypeMirror)){
+                            // t.orderDrawable = (OrderDrawable) RouterManager.getInstance().build("/order/getDrawable").navigation(t);
+//                            methodContent = "t." + fieldName + " = ($T) $T.getInstance().build($S).navigation(t)";
+//                            method.addStatement(methodContent,
+//                                    TypeName.get(typeMirror),
+//                                    ClassName.get(ProcessorConfig.AROUTER_API_PACKAGE, ProcessorConfig.ROUTER_MANAGER),
+//                                    annotationValue);
+//                            return;
+                            methodContent = "t."+fieldName + " = ($T)$T.getInstance().build($S).navigation(t)";
+                            builder.addStatement(methodContent,
+                                    TypeName.get(typeMirror),
+                                    ClassName.get(ProcessorConfig.AROUTER_API_PACKAGE, ProcessorConfig.ROUTER_MANAGER),
+                                    annotationValue);
+                            break;
                         }
                     }
 
