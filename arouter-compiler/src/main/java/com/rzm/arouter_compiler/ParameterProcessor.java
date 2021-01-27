@@ -176,13 +176,13 @@ public class ParameterProcessor extends AbstractProcessor {
                     } else if (type == TypeKind.BOOLEAN.ordinal()) {
                         // t.s = t.getIntent().getBooleanExtra("isSuccess", t.age);
                         methodContent += "getBooleanExtra($S, " + finalValue + ")";  // 有默认值
-                    } else  { // String 类型，没有序列号的提供 需要我们自己完成
+                    } else { // String 类型，没有序列号的提供 需要我们自己完成
                         // t.s = t.getIntent.getStringExtra("s");
                         // typeMirror.toString() java.lang.String
                         if (typeMirror.toString().equalsIgnoreCase(ProcessorConfig.STRING)) {
                             // String类型
                             methodContent += "getStringExtra($S)"; // 没有默认值
-                        }else if (typeUtils.isSubtype(typeMirror,callTypeMirror)){
+                        } else if (typeUtils.isSubtype(typeMirror, callTypeMirror)) {
                             // t.orderDrawable = (OrderDrawable) RouterManager.getInstance().build("/order/getDrawable").navigation(t);
 //                            methodContent = "t." + fieldName + " = ($T) $T.getInstance().build($S).navigation(t)";
 //                            method.addStatement(methodContent,
@@ -190,17 +190,21 @@ public class ParameterProcessor extends AbstractProcessor {
 //                                    ClassName.get(ProcessorConfig.AROUTER_API_PACKAGE, ProcessorConfig.ROUTER_MANAGER),
 //                                    annotationValue);
 //                            return;
-                            methodContent = "t."+fieldName + " = ($T)$T.getInstance().build($S).navigation(t)";
+                            methodContent = "t." + fieldName + " = ($T)$T.getInstance().build($S).navigation(t)";
                             builder.addStatement(methodContent,
                                     TypeName.get(typeMirror),
                                     ClassName.get(ProcessorConfig.AROUTER_API_PACKAGE, ProcessorConfig.ROUTER_MANAGER),
                                     annotationValue);
                             break;
+                        } else { // 对象的传输
+                            methodContent = "t.getIntent().getSerializableExtra($S)";
                         }
                     }
-
-                    // 健壮代码
-                    if (methodContent.endsWith(")")) { // 抱歉  全部的 getBooleanExtra  getIntExtra   getStringExtra
+                    if (methodContent.contains("Serializable")) {
+                        // t.student=(Student) t.getIntent().getSerializableExtra("student");  同学们注意：为了强转
+                        builder.addStatement(finalValue + "=($T)" + methodContent, ClassName.get(element.asType()), annotationValue);
+                    }// 健壮代码
+                    else if (methodContent.endsWith(")")) { // 抱歉  全部的 getBooleanExtra  getIntExtra   getStringExtra
                         // 参数二 9 赋值进去了
                         // t.age = t.getIntent().getBooleanExtra("age", t.age ==  9);
                         builder.addStatement(methodContent, annotationValue);

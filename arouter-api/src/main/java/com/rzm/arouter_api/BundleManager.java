@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
+
 public class BundleManager {
 
     private Bundle bundle = new Bundle();
@@ -27,6 +29,11 @@ public class BundleManager {
 
     public BundleManager withInt(@NonNull String key, @Nullable int value) {
         bundle.putInt(key, value);
+        return this;
+    }
+
+    public BundleManager withSerializable(@NonNull String key, @Nullable Serializable value) {
+        bundle.putSerializable(key, value);
         return this;
     }
 

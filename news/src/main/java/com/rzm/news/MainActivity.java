@@ -9,6 +9,7 @@ import com.rzm.arouter_annotations.ARouter;
 import com.rzm.arouter_annotations.Parameter;
 import com.rzm.arouter_api.ParameterManager;
 import com.rzm.arouter_api.RouterManager;
+import com.rzm.library.bean.Worker;
 
 @ARouter(path = "/news/MainActivity")
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         RouterManager.getInstance().build("/mine/MainActivity")
                 .withInt("id",111)
                 .withString("name","小猫")
+                .withSerializable("worker",new Worker("张三",33))
                 .navigation(this);
     }
 }
