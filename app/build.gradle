@@ -60,7 +60,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     annotationProcessor project(":arouter-compiler")
     // 公共基础库
-    implementation project(":library")
+    implementation project(':common')
     if (isRelease){
         implementation project(':mine')
         implementation project(':home')

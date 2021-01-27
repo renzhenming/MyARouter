@@ -1,4 +1,4 @@
-package com.rzm.library.bean;
+package com.rzm.bean;
 
 import java.io.Serializable;
 

@@ -9,7 +9,7 @@ import com.rzm.arouter_annotations.ARouter;
 import com.rzm.arouter_annotations.Parameter;
 import com.rzm.arouter_api.ParameterManager;
 import com.rzm.arouter_api.RouterManager;
-import com.rzm.library.bean.Worker;
+import com.rzm.bean.Worker;
 
 @ARouter(path = "/news/MainActivity")
 public class MainActivity extends AppCompatActivity {

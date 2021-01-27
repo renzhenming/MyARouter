@@ -40,4 +40,5 @@ dependencies {
         }
     }
     api project(":arouter-api")
+    api project(":beans")
 }

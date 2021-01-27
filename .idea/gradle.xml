@@ -15,8 +15,9 @@
             <option value="$PROJECT_DIR$/arouter-annotations" />
             <option value="$PROJECT_DIR$/arouter-api" />
             <option value="$PROJECT_DIR$/arouter-compiler" />
+            <option value="$PROJECT_DIR$/beans" />
+            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/home" />
-            <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/mine" />
             <option value="$PROJECT_DIR$/news" />
           </set>

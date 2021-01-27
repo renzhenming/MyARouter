@@ -61,7 +61,7 @@ android {
 dependencies {
     //循环引入
     dependencyID.each{ke,v -> implementation v}
-    implementation project(':library')
+    implementation project(':common')
     implementation project(":arouter-annotations")
     annotationProcessor project(":arouter-compiler")
 }

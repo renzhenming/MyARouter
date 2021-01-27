@@ -20,8 +20,9 @@
     <bytecodeTargetLevel target="1.7">
       <module name="ModelsProject.app" target="1.8" />
       <module name="ModelsProject.arouter-api" target="1.8" />
+      <module name="ModelsProject.beans" target="1.8" />
+      <module name="ModelsProject.common" target="1.8" />
       <module name="ModelsProject.home" target="1.8" />
-      <module name="ModelsProject.library" target="1.8" />
       <module name="ModelsProject.mine" target="1.8" />
       <module name="ModelsProject.news" target="1.8" />
     </bytecodeTargetLevel>
