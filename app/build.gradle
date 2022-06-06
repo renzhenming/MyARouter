@@ -5,21 +5,21 @@ plugins {
 printf("hello world .......")
 println(" who are you boy .... ")
 
-def androidID = rootProject.ext.androidId
-def applicationID = rootProject.ext.applicationId
-def dependencyID = rootProject.ext.dependencyId
-def url = rootProject.ext.url
+//def androidID = rootProject.ext.androidId
+//def applicationID = rootProject.ext.applicationId
+//def dependencyID = rootProject.ext.dependencyId
+//def url = rootProject.ext.url
 
 android {
-    compileSdkVersion androidID.compileSdkVersion
-    buildToolsVersion androidID.buildToolsVersion
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion androidId.buildToolsVersion
 
     defaultConfig {
-        applicationId applicationID.app
-        minSdkVersion androidID.minSdkVersion
-        targetSdkVersion androidID.targetSdkVersion
-        versionCode androidID.versionCode
-        versionName androidID.versionName
+        applicationId ApplicationId.app
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
 
         buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
 
@@ -33,11 +33,11 @@ android {
     }
 
     buildTypes {
-        debug{
-            buildConfigField("String","ServerUrl","\"${url.debug}\"")
+        debug {
+            buildConfigField("String", "ServerUrl", "\"${url.debug}\"")
         }
         release {
-            buildConfigField("String","ServerUrl","\"${url.release}\"")
+            buildConfigField("String", "ServerUrl", "\"${url.release}\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -50,18 +50,14 @@ android {
 
 dependencies {
     //循环引入
-    dependencyID.each{ke,v -> implementation v}
+    dependencyId.each { key, value ->
+        implementation(value)
+    }
     implementation project(":arouter-annotations")
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     annotationProcessor project(":arouter-compiler")
     // 公共基础库
     implementation project(':common')
-    if (isRelease){
+    if (isRelease) {
         implementation project(':mine')
         implementation project(':home')
         implementation project(':news')

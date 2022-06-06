@@ -2,20 +2,19 @@ plugins {
     id 'com.android.library'
 }
 
-def androidID = rootProject.ext.androidId
-def applicationID = rootProject.ext.applicationId
-def dependencyID = rootProject.ext.dependencyId
+//def androidID = rootProject.ext.androidId
+//def applicationID = rootProject.ext.applicationId
+//def dependencyID = rootProject.ext.dependencyId
 
 android {
-    compileSdkVersion androidID.compileSdkVersion
-    buildToolsVersion androidID.buildToolsVersion
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion androidId.buildToolsVersion
 
     defaultConfig {
-//        applicationId appID.app
-        minSdkVersion androidID.minSdkVersion
-        targetSdkVersion androidID.targetSdkVersion
-        versionCode androidID.versionCode
-        versionName androidID.versionName
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -34,9 +33,10 @@ android {
 
 dependencies {
     //循环引入
-    dependencyID.each { k, v ->
-        if (k != "constraintlayout") {
-            implementation v
+
+    dependencyId.each { key, value ->
+        if (key != "constraintlayout") {
+            implementation(value)
         }
     }
     api project(":arouter-api")

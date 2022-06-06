@@ -4,22 +4,22 @@ if (isRelease) {
     apply plugin: 'com.android.application'
 }
 
-def androidID = rootProject.ext.androidId
-def applicationID = rootProject.ext.applicationId
-def dependencyID = rootProject.ext.dependencyId
+//def androidID = rootProject.ext.androidId
+//def applicationID = rootProject.ext.applicationId
+//def dependencyID = rootProject.ext.dependencyId
 
 android {
-    compileSdkVersion androidID.compileSdkVersion
-    buildToolsVersion androidID.buildToolsVersion
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion androidId.buildToolsVersion
 
     defaultConfig {
         if (!isRelease){
-            applicationId applicationID.mine
+            applicationId ApplicationId.mine
         }
-        minSdkVersion androidID.minSdkVersion
-        targetSdkVersion androidID.targetSdkVersion
-        versionCode androidID.versionCode
-        versionName androidID.versionName
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
         // 在gradle文件中配置选项参数值（用于APT传参接收）
         javaCompileOptions {
             annotationProcessorOptions {
@@ -43,10 +43,10 @@ android {
         main {
             if (!isRelease) {
                 // 如果是组件化模式，需要单独运行时 Debug
-//                manifest.srcFile 'src/main/debug/AndroidManifest.xml' // 生效
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml' // 生效
             } else { // 正式环境下
                 // 集成化模式，整个项目打包apk
-//                manifest.srcFile 'src/main/AndroidManifest.xml' // 让我们之前 默认的路径下的清单文件再次生效
+                manifest.srcFile 'src/main/AndroidManifest.xml' // 让我们之前 默认的路径下的清单文件再次生效
 
                 java {
                     // release 时 debug 目录下文件不需要合并到主工程
@@ -59,7 +59,9 @@ android {
 
 dependencies {
     //循环引入
-    dependencyID.each{ke,v -> implementation v}
+    dependencyId.each { key,value ->
+        implementation(value)
+    }
     implementation project(':common')
     implementation project(":arouter-annotations")
     annotationProcessor project(":arouter-compiler")

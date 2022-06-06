@@ -20,16 +20,19 @@ ext {
             "versionName"      : "1.0"
     ]
 
-    applicationId = [
-            app: "com.rzm.modelsproject",
+    ApplicationId = [
+            "app": "com.rzm.modelsproject",
             home: "com.rzm.home",
             mine: "com.rzm.mine",
             news: "com.rzm.news",
     ]
 
     dependencyId = [
-            "appcompat"       : 'androidx.appcompat:appcompat:1.2.0',
-            "material"        : 'com.google.android.material:material:1.2.1',
-            "constraintlayout": 'androidx.constraintlayout:constraintlayout:2.0.4',
+            'appcompat'       : 'androidx.appcompat:appcompat:1.2.0',
+            'material'        : 'com.google.android.material:material:1.2.1',
+            'constraintlayout': 'androidx.constraintlayout:constraintlayout:2.0.4',
+            'annotation'      : 'androidx.annotation:annotation:1.1.0',
+            'livedata'        : 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0',
+            'viewmodel'       : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     ]
 }
