@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.rzm.arouter_annotations.ARouter;
 import com.rzm.arouter_annotations.bean.RouterBean;
 import com.rzm.arouter_api.ARouterPath;
-import com.rzm.arouter_class.ARouter$$Group$$mine;
-import com.rzm.arouter_class.ARouter$$Path$$mine;
+import com.rzm.arouter_api.RouterManager;
+import com.rzm.bean.Worker;
 
 import java.util.Map;
 
@@ -41,5 +42,16 @@ public class MainActivity extends AppCompatActivity {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    public void jumpToMine(View view) {
+
+        Worker worker = new Worker("我是一名工人", 22);
+
+        RouterManager.getInstance().build("/mine/MainActivity")
+                .withString("myId", "123456")
+                .withString("name", "章三")
+                .withSerializable("worker", worker)
+                .navigation(this);
     }
 }

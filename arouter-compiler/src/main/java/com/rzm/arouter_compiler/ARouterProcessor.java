@@ -144,8 +144,10 @@ public class ARouterProcessor extends AbstractProcessor {
         }
 
         //传完整类名进去，得到type
-        TypeElement pathType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterPath"); // ARouterPath描述
-        TypeElement groupType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterGroup"); // ARouterGroup描述
+//        TypeElement pathType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterPath"); // ARouterPath描述
+//        TypeElement groupType = elementUtils.getTypeElement("com.rzm.arouter_api.ARouterGroup"); // ARouterGroup描述
+        TypeElement pathType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_PATH); // ARouterPath描述
+        TypeElement groupType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_GROUP); // ARouterGroup描述
 
         messager.printMessage(Diagnostic.Kind.NOTE, "pathType = " + pathType);
         messager.printMessage(Diagnostic.Kind.NOTE, "groupType = " + groupType);

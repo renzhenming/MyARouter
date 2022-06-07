@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1347517730496454" />
+        <entry key="home/src/main/res/layout/activity_home.xml" value="0.14266304347826086" />
+        <entry key="home/src/main/res/layout/activity_main.xml" value="0.14266304347826086" />
+        <entry key="mine/src/main/res/layout/activity_main.xml" value="0.14266304347826086" />
+        <entry key="mine/src/main/res/layout/mine_activity_main.xml" value="0.1793478260869565" />
+        <entry key="news/src/main/res/layout/activity_main.xml" value="0.14266304347826086" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectPlainTextFileTypeManager">
     <file url="file://$PROJECT_DIR$/.gitignore" />
   </component>

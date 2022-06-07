@@ -83,7 +83,7 @@ public class RouterManager {
      */
     public Object navigation(Context context, BundleManager bundleManager) {
 
-        String finalClassName = context.getPackageName() + CLASS_PREFIX + group;
+        String finalClassName = context.getPackageName() + "." + CLASS_PREFIX + group;
         ARouterGroup aRouterGroup = groupLruCache.get(group);
         if (aRouterGroup == null) {
             try {

@@ -36,12 +36,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mine_activity_main);
         ParameterManager.getInstance().loadParameter(this);
         ImageView image = findViewById(R.id.image);
-        TextView text = findViewById(R.id.text);
         image.setImageResource(drawable.getDrawable());
-        text.setText("name = " + worker.getName() + " age = " + worker.getAge());
+
+        TextView text = findViewById(R.id.text);
+        StringBuilder builder = new StringBuilder();
+        builder.append("id = " + id);
+        builder.append(" , ");
+        builder.append(worker != null ? worker.toString() : "");
+        builder.append(" , ");
+        builder.append("name = " + name);
+        builder.append(" , ");
+        builder.append("homeRequest2 = " + homeRequest2);
+        builder.append(" , ");
+        builder.append("drawable = " + drawable);
+
+        text.setText(builder.toString());
     }
 
     public void jump(View view) {

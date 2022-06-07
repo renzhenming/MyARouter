@@ -12,6 +12,7 @@ import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +109,20 @@ public class ParameterProcessor extends AbstractProcessor {
                     }
                 }
                 messager.printMessage(Diagnostic.Kind.NOTE, "cacheMap size = " + cacheMap.size());
+
+                Iterator<Map.Entry<TypeElement, List<Element>>> iterator = cacheMap.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<TypeElement, List<Element>> next = iterator.next();
+                    if (next != null) {
+                        List<Element> value = next.getValue();
+                        if (value != null && !value.isEmpty()) {
+                            for (int i = 0; i < value.size(); i++) {
+                                Element element = value.get(i);
+                                messager.printMessage(Diagnostic.Kind.NOTE, "element in map : " + element.getSimpleName().toString());
+                            }
+                        }
+                    }
+                }
             }
 
             if (cacheMap == null || cacheMap.isEmpty()) {
@@ -145,7 +160,11 @@ public class ParameterProcessor extends AbstractProcessor {
                 builder.addStatement("$T t = ($T) " + ProcessorConfig.PARAMETER_NAME, className, className);
 
                 List<Element> parameterElementList = typeElementListEntry.getValue();
+                messager.printMessage(Diagnostic.Kind.NOTE, "parameterElementList size = " + parameterElementList.size());
                 for (Element element : parameterElementList) {
+
+                    messager.printMessage(Diagnostic.Kind.NOTE, "fieldName = " + element.getSimpleName());
+
                     // 遍历注解的属性节点 生成函数体
                     TypeMirror typeMirror = element.asType();
 

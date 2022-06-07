@@ -27,4 +27,12 @@ public class Worker implements Serializable {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }
